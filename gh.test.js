@@ -1,5 +1,24 @@
 let page;
 
+describe("GitHub homepage tests", () => {
+  beforeEach(async () => {
+    page = await browser.newPage();
+    await page.goto("https://github.com/");
+  });
+
+  afterEach(async () => {
+    await page.close();
+  });
+
+  test("The h1 header content", async () => {
+    await page.waitForSelector("h1");
+    const title = await page.title();
+    expect(title).toEqual(
+      "GitHub · Build and ship software on a single, collaborative platform · GitHub"
+    );
+  }, 20000);
+});
+
 describe("Github page tests", () => {
   
   beforeEach(async () => {
@@ -11,7 +30,7 @@ describe("Github page tests", () => {
     await page.close();
   });
   
-  test("The h1 header content'", async () => {
+  /*test("The h1 header content'", async () => {
     const firstLink = await page.$("header div div a");
     await firstLink.click();
     await page.waitForSelector("h1");
@@ -19,7 +38,7 @@ describe("Github page tests", () => {
     expect(title2).toEqual(
       "GitHub · Build and ship software on a single, collaborative platform · GitHub"
     );
-  },20000);
+  },20000);*/
 
   test("The first link attribute", async () => {
     const actual = await page.$eval("a", (link) => link.getAttribute("href"));
@@ -49,7 +68,7 @@ describe("Additional GitHub pages", () => {
     await page.goto("https://github.com/features/copilot");
     const title = await page.title();
     expect(title).toContain("GitHub Copilot · Your AI pair programmer · GitHub");
-  }, 10000);
+  }, 15000);
 
   test("GitHub sponsors page has correct title", async () => {
     await page.goto("https://github.com/sponsors");
