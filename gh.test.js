@@ -1,36 +1,20 @@
 let page;
 
-describe("GitHub homepage tests", () => {
-  beforeEach(async () => {
-    page = await browser.newPage();
-    await page.goto("https://github.com/");
-  });
+// Глобальные хуки для всех тестов
+beforeEach(async () => {
+  page = await browser.newPage();
+});
 
-  afterEach(async () => {
-    await page.close();
-  });
-
-  test("The h1 header content", async () => {
-    await page.waitForSelector("h1");
-    const title = await page.title();
-    expect(title).toEqual(
-      "GitHub · Build and ship software on a single, collaborative platform · GitHub"
-    );
-  }, 20000);
+afterEach(async () => {
+  await page.close();
 });
 
 describe("Github page tests", () => {
-  
   beforeEach(async () => {
-    page = await browser.newPage();
-    await page.goto("https://github.com/team");
+    await page.goto("https://github.com/team", { waitUntil: "networkidle2" });
   });
   
-  afterEach(async () => {
-    await page.close();
-  });
-  
-  /*test("The h1 header content'", async () => {
+  test("The h1 header content'", async () => {
     const firstLink = await page.$("header div div a");
     await firstLink.click();
     await page.waitForSelector("h1");
@@ -38,7 +22,7 @@ describe("Github page tests", () => {
     expect(title2).toEqual(
       "GitHub · Build and ship software on a single, collaborative platform · GitHub"
     );
-  },20000);*/
+  }, 20000);
 
   test("The first link attribute", async () => {
     const actual = await page.$eval("a", (link) => link.getAttribute("href"));
@@ -56,31 +40,22 @@ describe("Github page tests", () => {
 });
 
 describe("Additional GitHub pages", () => {
-  beforeEach(async () => {
-    page = await browser.newPage();
-  });
-
-  afterEach(async () => {
-    await page.close();
-  });
-
   test("Copilot", async () => {
-    await page.goto("https://github.com/features/copilot");
+    await page.goto("https://github.com/features/copilot", { waitUntil: "networkidle2" });
     const title = await page.title();
     expect(title).toContain("GitHub Copilot · Your AI pair programmer · GitHub");
   }, 15000);
 
   test("GitHub sponsors page has correct title", async () => {
-    await page.goto("https://github.com/sponsors");
+    await page.goto("https://github.com/sponsors", { waitUntil: "networkidle2" });
     const title = await page.title();
     expect(title).toContain("GitHub Sponsors");
   }, 10000);
 
   test("Check Pricing page", async () => {
-    await page.goto("https://github.com/pricing");
+    await page.goto("https://github.com/pricing", { waitUntil: "networkidle2" });
     const title = await page.title();
     expect(title).toContain("Pricing · Plans for every developer · GitHub");
   }, 10000);
 });
-
 
